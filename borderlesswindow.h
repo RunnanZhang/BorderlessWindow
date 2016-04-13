@@ -15,6 +15,9 @@ public:
     explicit BorderlessWindow(QWidget *parent = 0);
     ~BorderlessWindow();
 
+protected:
+	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+
 private:
     Ui::BorderlessWindow *ui;
 };

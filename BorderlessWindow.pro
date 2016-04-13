@@ -13,8 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        borderlesswindow.cpp
+        borderlesswindow.cpp \
+    ltitlebar.cpp \
+    lnativeeventfilter.cpp \
+    lmsghandler.cpp
 
-HEADERS  += borderlesswindow.h
+HEADERS  += borderlesswindow.h \
+    ltitlebar.h \
+    lnativeeventfilter.h \
+    lmsghandler.h
 
-FORMS    += borderlesswindow.ui
+FORMS    += borderlesswindow.ui \
+    ltitlebar.ui
