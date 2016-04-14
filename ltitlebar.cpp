@@ -13,7 +13,7 @@ LTitleBar::LTitleBar(QWidget *parent) :
     pix.load(":/images/title_min.png");
     ui->pMinBtn->setIcon(pix);
 
-    pix.load(":/images/title_max.png");
+    pix.load(":/images/title_restore.png");
     ui->pMaxBtn->setIcon(pix);
 
     pix.load(":/images/title_close.png");

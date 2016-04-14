@@ -25,3 +25,6 @@ HEADERS  += borderlesswindow.h \
 
 FORMS    += borderlesswindow.ui \
     ltitlebar.ui
+
+RESOURCES += \
+    resource.qrc

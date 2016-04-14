@@ -5,9 +5,9 @@
 #include <QList>
 #include <QAbstractNativeEventFilter>
 
-class LNativeEventFilter : /*public QObject,*/ public QAbstractNativeEventFilter
+class LNativeEventFilter : public QObject, public QAbstractNativeEventFilter
 {
-    //Q_OBJECT
+    Q_OBJECT
 
 public:
     LNativeEventFilter();
@@ -16,6 +16,8 @@ public:
 
 private:
     QList<quint32> _WinList;
+
+    bool _isBorderless;
 };
 
 #endif // LNATIVEEVENTFILTER_H

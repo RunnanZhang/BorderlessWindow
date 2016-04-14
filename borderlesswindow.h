@@ -18,6 +18,9 @@ public:
 protected:
 	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
 
+private slots:
+    void on_pAddBtn_clicked();
+
 private:
     Ui::BorderlessWindow *ui;
 };
