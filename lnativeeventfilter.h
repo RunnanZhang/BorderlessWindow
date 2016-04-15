@@ -1,3 +1,6 @@
+/*
+ * 原始事件过滤器类.用于接收最原始的windows消息.
+*/
 #ifndef LNATIVEEVENTFILTER_H
 #define LNATIVEEVENTFILTER_H
 
@@ -16,8 +19,6 @@ public:
 
 private:
     QList<quint32> _WinList;
-
-    bool _isBorderless;
 };
 
 #endif // LNATIVEEVENTFILTER_H

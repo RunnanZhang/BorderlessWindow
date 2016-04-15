@@ -5,6 +5,10 @@
 #include <QApplication>
 #include <QAbstractEventDispatcher>
 
+
+#include <QMovie>
+#include <QLabel>
+#include <QThread>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -20,5 +24,5 @@ int main(int argc, char *argv[])
     LMsgHandler::destroy();
     delete filter;
 
-    return result;
+	return result;
 }

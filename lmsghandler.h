@@ -1,3 +1,6 @@
+/*
+ * 消息管理类.在此定义信号，用于各类的通信.
+*/
 #ifndef LMSGHANDLER_H
 #define LMSGHANDLER_H
 

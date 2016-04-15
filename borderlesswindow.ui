@@ -6,25 +6,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>545</width>
-    <height>375</height>
+    <width>580</width>
+    <height>382</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>BorderlessWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#BorderlessWindow{border: 1px solid gray}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <item>
     <widget class="LTitleBar" name="pTitleBar" native="true">
@@ -37,11 +40,22 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="pAddBtn">
-     <property name="text">
-      <string>Add Widget</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pAddBtn">
+       <property name="text">
+        <string>Add Origin Widget</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pShadowBtn">
+       <property name="text">
+        <string>Set Shadow</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -51,7 +65,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>336</height>
+       <height>310</height>
       </size>
      </property>
     </spacer>

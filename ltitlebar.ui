@@ -13,6 +13,30 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QToolButton {
+background-color:white;
+border: 1px solid white
+}
+QToolButton:hover {
+background-color: lightgray; 
+border-color: balck
+} 
+QToolButton:pressed {
+background-color: gray; 
+border-color: black
+}
+
+QToolButton#pCloseBtn:hover {
+background-color: red; 
+border-color: balck
+} 
+QToolButton#pCloseBtn:pressed {
+background-color: red; 
+border-color: black
+}
+</string>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
     <number>0</number>
@@ -30,9 +54,51 @@
     <number>0</number>
    </property>
    <item>
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <widget class="QLabel" name="pLabel">
      <property name="text">
-      <string>TitleBar</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resource.qrc">:/images/james_16.ico</pixmap>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>My TitleBar</string>
      </property>
     </widget>
    </item>
@@ -75,7 +141,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="pMaxBtn">
+    <widget class="QToolButton" name="pMaxReBtn">
      <property name="minimumSize">
       <size>
        <width>30</width>
@@ -126,6 +192,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

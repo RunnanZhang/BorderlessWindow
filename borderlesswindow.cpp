@@ -1,30 +1,44 @@
 #include "borderlesswindow.h"
 #include "ui_borderlesswindow.h"
 #include "lmsghandler.h"
-#include <windows.h>
 #include <QDialog>
+#include <QPainter>
+#include <windows.h>
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
 
+
+#include <QMovie>
+#include <QLabel>
 BorderlessWindow::BorderlessWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::BorderlessWindow)
+    ui(new Ui::BorderlessWindow),
+	_isShadow(false)
 {
     ui->setupUi(this);
 
-	/* 虽然在之后的WM_CREATE里面已经设置了各种Style，这里其实已经无意义，但是此处必须设置，
+	/* 虽然在之后的SetWindowLongPtr里面已经设置了各种Style，这里其实已经无意义，但是此处必须设置，
 	 * 相当于一个标志，告诉Qt我们是无边框的，否则frameGeometry的返回以及绘制区域都会出现错误.*/
     this->setWindowFlags(Qt::FramelessWindowHint);
 
-    //LMsgHandler *pMsgHandler = LMsgHandler::getInstance();
-    //emit pMsgHandler->registerBorderlessWin(0);
+	// we cannot just use WS_POPUP style
+	// WS_THICKFRAME: without this the window cannot be resized and so aero snap, de-maximizing and minimizing won't work
+	// WS_SYSMENU: enables the context menu with the move, close, maximize, minize... commands (shift + right-click on the task bar item)
+	// HOWEVER, this also enables the menu with the maximize buttons in the title bar, which will exist inside your client area and are clickable.
+	// WS_CAPTION: enables aero minimize animation/transition
+	// WS_MAXIMIZEBOX, WS_MINIMIZEBOX: enable minimize/maximize
+	SetWindowLongPtr((HWND)this->winId(), GWL_STYLE, WS_POPUP | WS_THICKFRAME
+		| WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
 
-    //quint32 wId = (quint32)this->winId();
+	//因为过滤器我们安在了QAbstractEventDispatcher上，这个过滤器可以收到所有线程的消息，防止影响其他窗体，做一个注册标志.
+    LMsgHandler *pMsgHandler = LMsgHandler::getInstance();
+	emit pMsgHandler->registerBorderlessWin((quint32)winId());
 
-    //emit pMsgHandler->registerBorderlessWin(wId);
+	setAttribute(Qt::WA_StyledBackground);
 
     connect(ui->pTitleBar, &LTitleBar::minRequested, this, &QWidget::showMinimized);
     connect(ui->pTitleBar, &LTitleBar::maxRequested, this, &QWidget::showMaximized);
+    connect(ui->pTitleBar, &LTitleBar::restoreRequested, this, &QWidget::showNormal);
     connect(ui->pTitleBar, &LTitleBar::closeRequested, this, &QWidget::close);
 }
 
@@ -35,18 +49,19 @@ BorderlessWindow::~BorderlessWindow()
 
 void BorderlessWindow::on_pAddBtn_clicked()
 {
-	/*QWidget *w = new QWidget;
-	w->show();*/
-	BOOL composition_enabled = false;
-	bool success = DwmIsCompositionEnabled(&composition_enabled) == S_OK;
-	bool bbb =  composition_enabled && success;
-
-	static const MARGINS shadow_state[2] = { { 0, 0, 0, 0 }, { 10, 10, 10, 10 } };
-	static const MARGINS shadow_state2 = { 1, 1, 1, 1 };
-	DwmExtendFrameIntoClientArea((HWND)this->winId(), &shadow_state2);
-	// redraw frame
-	//SetWindowPos((HWND)this->winId(), nullptr, 1, 1, 1, 1, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
+    QWidget *w = new QWidget;
+    w->show();
 }
+
+void BorderlessWindow::on_pShadowBtn_clicked()
+{
+	_isShadow = !_isShadow;
+	static const MARGINS shadow_state[2] = { { 0, 0, 0, 0 }, { 1, 1, 1, 1 } };
+	DwmExtendFrameIntoClientArea((HWND)this->winId(), &shadow_state[_isShadow]);
+	// redraw frame
+	SetWindowPos((HWND)winId(), nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
+}
+
 
 bool BorderlessWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
 {
@@ -108,3 +123,4 @@ bool BorderlessWindow::nativeEvent(const QByteArray &eventType, void *message, l
 	}
 	return false;
 }
+
