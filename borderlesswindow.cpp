@@ -2,6 +2,7 @@
 #include "ui_borderlesswindow.h"
 #include "lmsghandler.h"
 #include <QDialog>
+#include <QDebug>
 #include <QPainter>
 #include <windows.h>
 #include <dwmapi.h>
@@ -27,8 +28,8 @@ BorderlessWindow::BorderlessWindow(QWidget *parent) :
 	// HOWEVER, this also enables the menu with the maximize buttons in the title bar, which will exist inside your client area and are clickable.
 	// WS_CAPTION: enables aero minimize animation/transition
 	// WS_MAXIMIZEBOX, WS_MINIMIZEBOX: enable minimize/maximize
-	SetWindowLongPtr((HWND)this->winId(), GWL_STYLE, WS_POPUP | WS_THICKFRAME
-		| WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+    SetWindowLongPtr((HWND)this->winId(), GWL_STYLE, WS_POPUP | WS_THICKFRAME
+        | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
 
 	//因为过滤器我们安在了QAbstractEventDispatcher上，这个过滤器可以收到所有线程的消息，防止影响其他窗体，做一个注册标志.
     LMsgHandler *pMsgHandler = LMsgHandler::getInstance();
@@ -59,7 +60,7 @@ void BorderlessWindow::on_pShadowBtn_clicked()
 	static const MARGINS shadow_state[2] = { { 0, 0, 0, 0 }, { 1, 1, 1, 1 } };
 	DwmExtendFrameIntoClientArea((HWND)this->winId(), &shadow_state[_isShadow]);
 	// redraw frame
-	SetWindowPos((HWND)winId(), nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
+    SetWindowPos((HWND)winId(), nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
 }
 
 
@@ -76,7 +77,7 @@ bool BorderlessWindow::nativeEvent(const QByteArray &eventType, void *message, l
 	}
 
 	if (msg->message == WM_NCHITTEST) {
-		const int HIT_BORDER = 8;
+        const int HIT_BORDER = 8;
 		int xPos = ((int)(short)LOWORD(msg->lParam)) - this->frameGeometry().x();
 		int yPos = ((int)(short)HIWORD(msg->lParam)) - this->frameGeometry().y();
 		
