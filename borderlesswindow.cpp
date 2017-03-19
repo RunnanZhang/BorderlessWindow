@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
+#pragma comment(lib, "user32.lib")
 
 
 #include <QMovie>
@@ -75,6 +76,18 @@ bool BorderlessWindow::nativeEvent(const QByteArray &eventType, void *message, l
 	if (msg->message == WM_NCCALCSIZE) {
 		int a = 0;
 	}
+
+
+    if(msg->message == WM_SIZE)
+    {
+        // fix margin for SIZE_MAXIMIZED
+        if(msg->hwnd && msg->wParam == SIZE_MAXIMIZED)
+            setContentsMargins(0,0, 16, 16);
+        else
+            setContentsMargins(0, 0, 0, 0);
+
+        return false;
+    }
 
 	if (msg->message == WM_NCHITTEST) {
         const int HIT_BORDER = 8;
